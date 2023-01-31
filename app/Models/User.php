@@ -47,4 +47,28 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function isAdmin()
+    {
+        if($this->position == 'admin')
+        {
+            return true;
+        }
+    }
+
+    public function isManager()
+    {
+        if($this->position == 'manager')
+        {
+            return true;
+        }
+    }
+
+    public function isEmployee()
+    {
+        if($this->position == 'employee')
+        {
+            return true;
+        }
+    }
 }

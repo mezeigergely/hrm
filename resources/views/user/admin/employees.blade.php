@@ -1,9 +1,9 @@
 @extends('layouts.layout')
 
 @section('content')
-<h1 class="pt-3 fw-normal">Managers</h1>
+<h1 class="pt-3 fw-normal">Employees</h1>
 @php
-    $type = gettype($managers);
+    $type = gettype($employees);
 @endphp
 @if ($type != "string")
     <table class="table table-bordered">
@@ -13,11 +13,11 @@
             <th>Email</th>
             <th width="280px">Action</th>
         </tr>
-        @foreach ($managers as $manager)
+        @foreach ($employees as $employee)
         <tr>
-            <td>{{ $manager->id }}</td>
-            <td>{{ $manager->name }}</td>
-            <td>{{ $manager->email }}</td>
+            <td>{{ $employee->id}}</td>
+            <td>{{ $employee->name }}</td>
+            <td>{{ $employee->email }}</td>
             <td>
                 <form action="" method="POST">
 
@@ -35,11 +35,11 @@
         @endforeach
     </table>
 @endif
-<p>{{ $managers }}</p>
+<p>{{ $employees }}</p>
 <div class="col-8">
-    <h1 class="pt-3 h3 fw-normal">Create new manager</h1>
+    <h1 class="pt-3 h3 fw-normal">Create new employee</h1>
     @include('admin.partials.messages')
-    <form action="{{ route('admin.create-manager') }}" method="POST">
+    <form action="{{ route('create-employee') }}" method="POST">
         @csrf
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">

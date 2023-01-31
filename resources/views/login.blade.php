@@ -3,7 +3,7 @@
 @section('content')
 @guest
 
-<form method="post" action="{{ route('admin.login') }}">
+<form method="post" action="{{ route('login') }}">
 
     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 

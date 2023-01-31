@@ -1,14 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 
 Route::get('/',[UserController::class,'show']);
-Route::get('/admin/login',[AdminController::class,'show']);
-Route::post('/admin/login',[AdminController::class,'login'])->name('admin.login');
-Route::get('/admin/logout',[AdminController::class,'logout'])->name('admin.logout');
-Route::get('/admin/managers',[AdminController::class,'managers'])->name('admin.managers');
-Route::post('/admin/managers', [AdminController::class,'createManager'])->name('admin.create-manager');
-Route::get('/admin/employees',[AdminController::class,'employees'])->name('admin.employees');
-Route::post('/admin/employees', [AdminController::class,'createEmployee'])->name('admin.create-employee');
+Route::post('/login',[UserController::class,'login'])->name('login');
+Route::get('/logout',[UserController::class,'logout'])->name('logout');
+Route::get('/managers',[UserController::class,'managers'])->name('managers');
+Route::post('/managers', [UserController::class,'createManager'])->name('create-manager');
+Route::get('/employees',[UserController::class,'employees'])->name('employees');
+Route::post('/employees', [UserController::class,'createEmployee'])->name('create-employee');
