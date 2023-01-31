@@ -19,11 +19,11 @@
             <td>{{ $manager->name }}</td>
             <td>{{ $manager->email }}</td>
             <td>
-                <form action="" method="POST">
+                <form action="{{ route('users.destroy',$manager->id) }}" method="POST">
 
-                    <a class="btn btn-info" href="">Show</a>
+                    <a class="btn btn-info" href="{{ route('users.show',$manager->id) }}">Show</a>
 
-                    <a class="btn btn-primary" href="">Edit</a>
+                    <a class="btn btn-primary" href="{{ route('users.edit',$manager->id) }}">Edit</a>
 
                     @csrf
                     @method('DELETE')

@@ -89,6 +89,13 @@ class UserController extends Controller
         return view('user.admin.employees', compact('employees'));
     }
 
+    protected function getUserById($id)
+    {
+        return User::where([
+            ['id', $id]
+        ])->get();
+    }
+
     public function createEmployee(Request $request)
     {
         $this->validate(request(), [
@@ -109,5 +116,28 @@ class UserController extends Controller
             Log::error('Manager create error!'.' '.$e);
             return Redirect::back()->withErrors(['emailError' => 'This e-mail is already exist in our system!']);
         }
+    }
+
+    public function edit(User $user)
+    {
+        return view('user.edit',compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|email|max:255|regex:/(.*)@eclick\.hu/i|unique:users',
+            'password' => 'required'
+        ]);
+        $user->update($request->all());
+        return redirect()->back();
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->back();
     }
 }
