@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
         $admin = [
             'name' => 'admin',
             'email' => 'admin_hrm@eclick.hu',
-            'password' => Hash::make('admin'),
+            'password' => 'admin',
             'position' => 'admin'
         ];
 
