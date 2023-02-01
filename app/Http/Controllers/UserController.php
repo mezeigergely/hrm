@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Holiday;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -24,7 +26,7 @@ class UserController extends Controller
         try{
             $user = User::where('email', '=', $request->email)->first();
             auth()->login($user);
-            return view('user.home', compact('user'));
+            return redirect()->to('/home');
         }
         catch(Exception $e){
             Log::error('Login error!'.' '.$e);
@@ -96,6 +98,30 @@ class UserController extends Controller
         ])->get();
     }
 
+    public function holidayRequests()
+    {
+        return view('user.holidayRequest');
+    }
+
+    public function getHolidayRequests()
+    {
+        $holidayRequests = Holiday::where([
+            ['h_is_active', 0]
+        ])->get();
+        return view('user.manageHolidayRequests', compact('holidayRequests'));
+    }
+
+    public function approveHoliday(Request $request)
+    {
+        $holiday = Holiday::where([
+            ['id', $request->id]
+        ])->first();
+        $holiday->h_type = $request->h_type;
+        $holiday->h_is_active = $request->h_is_active;
+        $holiday->save();
+        return redirect()->back();
+    }
+
     public function createEmployee(Request $request)
     {
         $this->validate(request(), [
@@ -139,5 +165,37 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->back();
+    }
+
+    public function createHolidayRequest(Request $request)
+    {
+        $userType = $this->getUserById(Auth::id());
+        $active = 0;
+        foreach($userType as $uT)
+        {
+            $userType = $uT['position'];
+        }
+        if($userType == "manager"){
+            $active = 1;
+        }
+        $holiday = new Holiday();
+        $holiday->user_id = Auth::id();
+        $holiday->h_days = $request->holidays;
+        $holiday->h_type = $request->h_type;
+        $holiday->h_is_active = $active;
+        $holiday->save();
+        return redirect('/home');
+    }
+
+    public function home()
+    {
+        $user = $this->getUserById(Auth::id());
+        $holidays = Holiday::where([
+            ['user_id', Auth::id()],['h_is_active', 1]
+        ])->get();
+        if(!$holidays){
+            return view('user.home', compact('user'));
+        }
+        return view('user.home', compact('user', 'holidays'));
     }
 }
