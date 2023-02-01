@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\HrmMail;
 
 class UserController extends Controller
 {
@@ -187,6 +189,7 @@ class UserController extends Controller
         foreach($userType as $uT)
         {
             $userType = $uT['position'];
+            $email = $uT['email'];
         }
         if($userType == "manager"){
             $active = 1;
@@ -197,6 +200,7 @@ class UserController extends Controller
         $holiday->h_type = $request->h_type;
         $holiday->h_is_active = $active;
         $holiday->save();
+	    Mail::to('hrm@eclick.hu')->send(new HrmMail);
         return redirect('/home');
     }
 
