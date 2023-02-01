@@ -153,11 +153,24 @@ class UserController extends Controller
     {
         $this->validate(request(), [
             'name' => 'required',
-            'email' => 'required|email|max:255|regex:/(.*)@eclick\.hu/i|unique:users',
+            'email' => 'required|email|max:255|regex:/(.*)@eclick\.hu/i',
             'password' => 'required'
         ]);
-        $user->update($request->all());
-        return redirect()->back();
+        try{
+            $user = User::where([
+                ['id', $request->id]
+            ])->first();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = $request->password;
+            $user->save();
+            return Redirect::back()->with('message', 'Updated successfully!');
+        }
+        catch(Exception $e){
+            Log::error('Update error!'.' '.$e);
+            return Redirect::back()->withErrors(['emailError' => 'This e-mail is already exist in our system!']);
+        }
+
     }
 
     public function destroy(User $user)

@@ -1,6 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
+@if(Auth::check())
 <h1 class="pt-3 fw-normal">Employees</h1>
 @php
     $type = gettype($employees);
@@ -21,8 +22,6 @@
             <td>
                 <form action="{{ route('users.destroy',$employee->id) }}" method="POST">
 
-                    <a class="btn btn-info" href="{{ route('users.show',$employee->id) }}">Show</a>
-
                     <a class="btn btn-primary" href="{{ route('users.edit',$employee->id) }}">Edit</a>
 
                     @csrf
@@ -35,10 +34,9 @@
         @endforeach
     </table>
 @endif
-<p>{{ $employees }}</p>
 <div class="col-8">
     <h1 class="pt-3 h3 fw-normal">Create new employee</h1>
-    @include('admin.partials.messages')
+    @include('layouts.messages')
     <form action="{{ route('create-employee') }}" method="POST">
         @csrf
          <div class="row">
@@ -64,5 +62,5 @@
         </div>
     </form>
 </div>
-
+@endif
 @endsection

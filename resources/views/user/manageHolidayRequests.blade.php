@@ -1,6 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
+@if(Auth::check())
 @foreach ($holidayRequests as $holidayRequest)
 @if ($holidayRequest->h_is_active == 0)
 <form action="{{ route('approve-holiday-requests') }}" method="post">
@@ -38,4 +39,5 @@
 </form>
 @endif
 @endforeach
+@endif
 @endsection

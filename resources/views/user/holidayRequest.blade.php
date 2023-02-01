@@ -28,7 +28,7 @@
 @if(Auth::check() and (Auth::user()->isEmployee() == true))
 <div class="col-8">
     <h1 class="pt-3 h3 fw-normal">Holiday request</h1>
-    @include('admin.partials.messages')
+    @include('layouts.messages')
     <form action="{{ route('create-holiday-request') }}" method="POST">
         @csrf
         <div class="pt-2">
@@ -44,7 +44,7 @@
     @if(Auth::check() and (Auth::user()->isManager() == true))
     <div class="col-8">
     <h1 class="pt-3 h3 fw-normal">Holiday request</h1>
-    @include('admin.partials.messages')
+    @include('layouts.messages')
     <form action="{{ route('create-holiday-request') }}" method="POST">
         @csrf
         <div class="pt-2">

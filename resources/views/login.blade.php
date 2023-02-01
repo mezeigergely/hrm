@@ -9,7 +9,7 @@
 
     <h1 class="pt-5 h3 mb-3 fw-normal">Login</h1>
 
-    @include('admin.partials.messages')
+    @include('layouts.messages')
 
     <div class="form-group form-floating mb-3">
         <input type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="email" required="required" autofocus>
